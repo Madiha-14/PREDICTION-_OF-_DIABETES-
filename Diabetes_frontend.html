@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diabetes Predictor</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-teal-500 mx-auto mb-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
+        </svg>
+
+        <h1 class="text-4xl sm:text-5xl font-bold text-center text-gray-900 mb-2">
+            DIABETES PREDICTOR
+        </h1>
+        <p class="text-center text-gray-500 mb-8">
+            Enter the patient's details below for a diabetes risk assessment.
+        </p>
+
+        <form id="predict-form">
+            <div class="mb-6">
+                <label for="api-url" class="block text-sm font-medium text-gray-700 mb-1">Backend API URL</label>
+                <input
+                    type="text"
+                    id="api-url"
+                    name="apiUrl"
+                    value="http://127.0.0.1:5000/predict"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    required
+                />
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold text-teal-700 border-b border-gray-200 pb-2 mb-4">Patient Profile</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div>
+                        <label for="Age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                        <input
+                            type="number"
+                            id="Age"
+                            name="Age"
+                            value="25"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select
+                            id="Gender"
+                            name="Gender"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Region" class="block text-sm font-medium text-gray-700 mb-1">Region</label>
+                        <select
+                            id="Region"
+                            name="Region"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="North">North</option>
+                            <option value="South">South</option>
+                            <option value="East">East</option>
+                            <option value="West">West</option>
+                            <option value="Central">Central</option>
+                            <option value="Northeast">Northeast</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Family_Income" class="block text-sm font-medium text-gray-700 mb-1">Family Income</label>
+                        <input
+                            type="number"
+                            id="Family_Income"
+                            name="Family_Income"
+                            value="500000"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold text-teal-700 border-b border-gray-200 pb-2 mb-4">Medical History</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="Family_History_Diabetes" class="block text-sm font-medium text-gray-700 mb-1">Family History Diabetes</label>
+                        <select
+                            id="Family_History_Diabetes"
+                            name="Family_History_Diabetes"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="Yes">Yes</option>
+                            <option value="No" selected>No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Parent_Diabetes_Type" class="block text-sm font-medium text-gray-700 mb-1">Parent Diabetes Type</label>
+                        <select
+                            id="Parent_Diabetes_Type"
+                            name="Parent_Diabetes_Type"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="None" selected>None</option>
+                            <option value="Type 1">Type 1</option>
+                            <option value="Type 2">Type 2</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Genetic_Risk_Score" class="block text-sm font-medium text-gray-700 mb-1">Genetic Risk Score (1-10)</label>
+                        <input
+                            type="number"
+                            id="Genetic_Risk_Score"
+                            name="Genetic_Risk_Score"
+                            value="5"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            min="1"
+                            max="10"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold text-teal-700 border-b border-gray-200 pb-2 mb-4">Lifestyle Habits</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="BMI" class="block text-sm font-medium text-gray-700 mb-1">BMI</label>
+                        <input
+                            type="number"
+                            id="BMI"
+                            name="BMI"
+                            value="25.0"
+                            step="0.1"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Physical_Activity_Level" class="block text-sm font-medium text-gray-700 mb-1">Physical Activity Level</label>
+                        <select
+                            id="Physical_Activity_Level"
+                            name="Physical_Activity_Level"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="Sedentary" selected>Sedentary</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Active">Active</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Dietary_Habits" class="block text-sm font-medium text-gray-700 mb-1">Dietary Habits</label>
+                        <select
+                            id="Dietary_Habits"
+                            name="Dietary_Habits"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="Moderate" selected>Moderate</option>
+                            <option value="Unhealthy">Unhealthy</option>
+                            <option value="Healthy">Healthy</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Fast_Food_Intake" class="block text-sm font-medium text-gray-700 mb-1">Fast Food Intake (0-10)</label>
+                        <input
+                            type="number"
+                            id="Fast_Food_Intake"
+                            name="Fast_Food_Intake"
+                            value="5"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            min="0"
+                            max="10"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Smoking" class="block text-sm font-medium text-gray-700 mb-1">Smoking</label>
+                        <select
+                            id="Smoking"
+                            name="Smoking"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="Yes">Yes</option>
+                            <option value="No" selected>No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="Alcohol_Consumption" class="block text-sm font-medium text-gray-700 mb-1">Alcohol Consumption</label>
+                        <select
+                            id="Alcohol_Consumption"
+                            name="Alcohol_Consumption"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        >
+                            <option value="Yes">Yes</option>
+                            <option value="No" selected>No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h2 class="text-lg font-semibold text-teal-700 border-b border-gray-200 pb-2 mb-4">Key Vitals & Daily Factors</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="Fasting_Blood_Sugar" class="block text-sm font-medium text-gray-700 mb-1">Fasting Blood Sugar (mg/dL)</label>
+                        <input
+                            type="number"
+                            id="Fasting_Blood_Sugar"
+                            name="Fasting_Blood_Sugar"
+                            value="100.0"
+                            step="0.1"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="HbA1c" class="block text-sm font-medium text-gray-700 mb-1">HbA1c (%)</label>
+                        <input
+                            type="number"
+                            id="HbA1c"
+                            name="HbA1c"
+                            value="5.7"
+                            step="0.1"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Cholesterol_Level" class="block text-sm font-medium text-gray-700 mb-1">Cholesterol Level (mg/dL)</label>
+                        <input
+                            type="number"
+                            id="Cholesterol_Level"
+                            name="Cholesterol_Level"
+                            value="200.0"
+                            step="0.1"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Sleep_Hours" class="block text-sm font-medium text-gray-700 mb-1">Sleep Hours</label>
+                        <input
+                            type="number"
+                            id="Sleep_Hours"
+                            name="Sleep_Hours"
+                            value="7"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            min="0"
+                            max="24"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Stress_Level" class="block text-sm font-medium text-gray-700 mb-1">Stress Level (1-10)</label>
+                        <input
+                            type="number"
+                            id="Stress_Level"
+                            name="Stress_Level"
+                            value="5"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            min="1"
+                            max="10"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="Screen_Time" class="block text-sm font-medium text-gray-700 mb-1">Screen Time (hours)</label>
+                        <input
+                            type="number"
+                            id="Screen_Time"
+                            name="Screen_Time"
+                            value="8.0"
+                            step="0.1"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                id="predict-button"
+                class="w-full mt-8 py-3 px-4 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center"
+            >
+                <svg
+                    id="spinner"
+                    class="animate-spin h-5 w-5 text-white mr-3 hidden"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                </svg>
+                <span id="button-text">Run Assessment</span>
+            </button>
+        </form>
+
+        <div id="result-message" class="mt-8 p-6 rounded-xl bg-teal-50 text-center border border-teal-200 hidden">
+            <h2 class="text-2xl font-bold text-teal-800">
+                Assessment Result
+            </h2>
+            <p class="mt-2 text-xl font-semibold text-gray-900">
+                The predicted diabetes status is:
+                <span id="prediction-output" class="ml-2 font-bold"></span>
+            </p>
+        </div>
+
+        <div id="error-message" class="mt-8 p-4 rounded-lg bg-red-100 text-center border border-red-400 text-red-700 hidden">
+            <p id="error-output" class="font-medium"></p>
+        </div>
+    </div>
+
+    <script>
+        const predictForm = document.getElementById('predict-form');
+        const predictButton = document.getElementById('predict-button');
+        const spinner = document.getElementById('spinner');
+        const buttonText = document.getElementById('button-text');
+        
+        const resultMessage = document.getElementById('result-message');
+        const predictionOutput = document.getElementById('prediction-output');
+        
+        const errorMessage = document.getElementById('error-message');
+        const errorOutput = document.getElementById('error-output');
+
+        predictForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            buttonText.textContent = 'Assessing...';
+            spinner.classList.remove('hidden');
+            predictButton.disabled = true;
+            resultMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+
+            const apiUrl = document.getElementById('api-url').value;
+
+            const formData = new FormData(predictForm);
+            const data = {};
+            
+            const integerFields = [
+                'Age', 'Family_Income', 'Genetic_Risk_Score', 
+                'Fast_Food_Intake', 'Sleep_Hours', 'Stress_Level'
+            ];
+            const floatFields = [
+                'BMI', 'Fasting_Blood_Sugar', 'HbA1c', 
+                'Cholesterol_Level', 'Screen_Time'
+            ];
+            
+            for (let [key, value] of formData.entries()) {
+                if (integerFields.includes(key)) {
+                    data[key] = parseInt(value, 10);
+                } else if (floatFields.includes(key)) {
+                    data[key] = parseFloat(value);
+                } else if (key !== 'apiUrl') {
+                    data[key] = value;
+                }
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+                }
+
+                const result = await response.json();
+                
+                predictionOutput.textContent = result.prediction;
+                
+                if (result.prediction === "Non-Diabetic") {
+                    predictionOutput.className = "ml-2 font-bold text-green-600";
+                } else {
+                    predictionOutput.className = "ml-2 font-bold text-red-600";
+                }
+                
+                resultMessage.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Prediction failed:', error);
+                errorOutput.textContent = `Failed to get a prediction. Please check the API URL and that the Flask server is running. Error: ${error.message}`;
+                errorMessage.classList.remove('hidden');
+            } finally {
+                buttonText.textContent = 'Run Assessment';
+                spinner.classList.add('hidden');
+                predictButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
