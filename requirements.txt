@@ -1,7 +1,6 @@
-flask==3.0.3
+Flask==2.2.2
 flask-cors==4.0.0
-pandas
-numpy
-scipy
-scikit-learn==1.5.2
-imbalanced-learn==0.14.0
+pandas==1.5.3
+numpy==1.23.5
+scikit-learn==1.2.2
+gunicorn==20.1.0
