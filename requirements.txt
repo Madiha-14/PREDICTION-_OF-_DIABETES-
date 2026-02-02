@@ -1,5 +1,6 @@
 Flask==2.2.2
 flask-cors==4.0.0
+python-3.10.13
 pandas==1.5.3
 numpy==1.23.5
 scikit-learn==1.2.2
