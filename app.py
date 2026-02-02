@@ -227,16 +227,7 @@ def not_found(error):
 def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
-if __name__ == '__main__':
-    print("🚀 Starting Diabetes Prediction API Server...")
-    
-    # Load model and setup preprocessing
-    if load_model_and_setup():
-        print("✅ Server setup complete!")
-        print("🌐 Server will be available at: http://127.0.0.1:5000")
-        print("🩺 Helath Check at Full website @ ")
-        
-        # Start the Flask server
-        app.run(host='127.0.0.1', port=5000, debug=True)
-    else:
-        print("❌ Failed to start server due to model loading issues")
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
