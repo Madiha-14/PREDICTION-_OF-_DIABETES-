@@ -27,6 +27,10 @@ def load_model_and_setup():
     """Load the model and set up preprocessing"""
     global model, label_encoders, feature_columns
     
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    df = pd.read_csv(os.path.join(BASE_DIR, 'diabetes_corrected.csv'))
+
+    
     try:
         # Try to load the final model first, then fallback to other models
         model_files = ['diabetes_model_final.pkl', 'diabetes_model_corrected.pkl', 'diabetes_model_optimized.pkl']
